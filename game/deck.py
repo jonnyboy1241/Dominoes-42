@@ -1,8 +1,20 @@
 from domino import *
-import random   # For shuffling the deck
+import random  # For shuffling the deck
 
 
-class Deck(object):
+# Base class for inheriting collections of dominoes
+# (Deck has 28, Hand starts with 7, Trick has 4)
+class DominoCollection(object):
+    def print(self):
+        for domino in self.dominoes:
+            domino.print_domino()
+
+    def pretty_print(self):
+        for domino in self.dominoes:
+            domino.pretty_print_domino()
+
+
+class Deck(DominoCollection):
     def __init__(self):
         dominoes = []
         for i in range(7):
@@ -16,7 +28,15 @@ class Deck(object):
         random.seed()
         random.shuffle(self.dominoes)
 
-    # Really only for testing purposes
-    def print_deck(self):
-        for domino in self.dominoes:
-            domino.print_values()
+    # Deals 7 dominoes to each player
+    def deal(self):
+        return Hand(self.dominoes[0:7]), \
+               Hand(self.dominoes[7:14]), \
+               Hand(self.dominoes[14:21]), \
+               Hand(self.dominoes[21:28])
+
+
+class Hand(DominoCollection):
+    def __init__(self, domino_collection):
+        assert(len(domino_collection) == 7)
+        self.dominoes = domino_collection
