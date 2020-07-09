@@ -1,4 +1,5 @@
 from domino import *
+from player import *
 import random  # For shuffling the deck
 
 
@@ -30,13 +31,18 @@ class Deck(DominoCollection):
 
     # Deals 7 dominoes to each player
     def deal(self):
-        return Hand(self.dominoes[0:7]), \
-               Hand(self.dominoes[7:14]), \
-               Hand(self.dominoes[14:21]), \
-               Hand(self.dominoes[21:28])
+        return Player(Hand(self.dominoes[0:7]), 1), \
+               Player(Hand(self.dominoes[7:14]), 2), \
+               Player(Hand(self.dominoes[14:21]), 3), \
+               Player(Hand(self.dominoes[21:28]), 4)
 
 
 class Hand(DominoCollection):
     def __init__(self, domino_collection):
         assert(len(domino_collection) == 7)
         self.dominoes = domino_collection
+
+
+class Trick(DominoCollection):
+    def __init__(self):
+        self.dominoes = []
