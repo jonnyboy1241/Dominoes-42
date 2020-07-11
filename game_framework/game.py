@@ -18,3 +18,16 @@ class Game(object):
 
         print('\nPLAYER 4')
         self.player4.hand.print()
+
+    def pretty_print_players(self):
+        print('PLAYER 1')
+        self.player1.hand.pretty_print()
+
+        print('\nPLAYER 2')
+        self.player2.hand.pretty_print()
+
+        print('\nPLAYER 3')
+        self.player3.hand.pretty_print()
+
+        print('\nPLAYER 4')
+        self.player4.hand.pretty_print()
