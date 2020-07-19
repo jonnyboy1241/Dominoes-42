@@ -41,13 +41,14 @@ class Game(object):
     def print_game_state(self, round_num, players, DEBUG_BIDDING_STRING, DEBUG_TRUMP_STRING):
         print('ROUND NUMBER', str(round_num))
         print('-------------------------------------')
-        print('TEAM 1 SCORE:', str(self.team_1_score))
-        print('TEAM 2 SCORE:', str(self.team_2_score), '\n')
         print('PLAYER #', str(self.first_bid), 'BIDS FIRST\n')
         print(DEBUG_BIDDING_STRING)
         print(DEBUG_TRUMP_STRING)
 
         print_players(players)
+        print('')
+        print('TEAM 1 SCORE:', str(self.team_1_score))
+        print('TEAM 2 SCORE:', str(self.team_2_score))
         print('\n')
 
     def assign_winner(self, winner):
