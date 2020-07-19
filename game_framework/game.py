@@ -1,33 +1,85 @@
 from deck import *
-from player import *
+from round import *
 
 
 class Game(object):
     def __init__(self):
-        self.player1, self.player2, self.player3, self.player4 = Deck().deal()
+        self.team_1_score = 0  # players[0] and players[2]
+        self.team_2_score = 0  # players[1] and players[3]
+        self.first_bid = 0  # This value will increment each round to determine what player will bid first
 
-    def print_players(self):
-        print('PLAYER 1')
-        self.player1.hand.print()
+    # Executes the game loop
+    def play_game(self):
+        round_num = 1
+        while True:
+            if self.team_1_score >= 7:
+                print('Team 1 Won!')
+                return
+            elif self.team_2_score >= 7:
+                print('Team 2 Won!')
+                return
+            else:
+                players = Deck().deal()
+                next_round = Round(players, self.first_bid)
 
-        print('\nPLAYER 2')
-        self.player2.hand.print()
+                # start the bidding
+                player_with_highest_bid, DEBUG_BIDDING_STRING, DEBUG_TRUMP_STRING = next_round.bid()
 
-        print('\nPLAYER 3')
-        self.player3.hand.print()
+                winner = next_round.play_hand()
 
-        print('\nPLAYER 4')
-        self.player4.hand.print()
+                if winner == 1:
+                    self.team_1_score += 1
+                else:
+                    self.team_2_score += 1
 
-    def pretty_print_players(self):
-        print('PLAYER 1')
-        self.player1.hand.pretty_print()
+                self.print_game_state(round_num, players, DEBUG_BIDDING_STRING, DEBUG_TRUMP_STRING)
 
-        print('\nPLAYER 2')
-        self.player2.hand.pretty_print()
+                # Next player bids first
+                self.first_bid = (self.first_bid + 1) % 4
+                round_num += 1
 
-        print('\nPLAYER 3')
-        self.player3.hand.pretty_print()
+    def print_game_state(self, round_num, players, DEBUG_BIDDING_STRING, DEBUG_TRUMP_STRING):
+        print('ROUND NUMBER', str(round_num))
+        print('-------------------------------------')
+        print('TEAM 1 SCORE:', str(self.team_1_score))
+        print('TEAM 2 SCORE:', str(self.team_2_score), '\n')
+        print('PLAYER #', str(self.first_bid), 'BIDS FIRST\n')
+        print(DEBUG_BIDDING_STRING)
+        print(DEBUG_TRUMP_STRING)
 
-        print('\nPLAYER 4')
-        self.player4.hand.pretty_print()
+        print_players(players)
+        print('\n')
+
+    def assign_winner(self, winner):
+        if winner == 0:
+            self.team_1_score += 1
+        else:
+            self.team_2_score += 1
+
+
+def print_players(players):
+    print('PLAYER 1')
+    players[0].hand.print()
+
+    print('\nPLAYER 2')
+    players[1].hand.print()
+
+    print('\nPLAYER 3')
+    players[2].hand.print()
+
+    print('\nPLAYER 4')
+    players[3].hand.print()
+
+
+def pretty_print_players(players):
+    print('PLAYER 1')
+    players[0].hand.pretty_print()
+
+    print('\nPLAYER 2')
+    players[1].hand.pretty_print()
+
+    print('\nPLAYER 3')
+    players[2].hand.pretty_print()
+
+    print('\nPLAYER 4')
+    players[3].hand.pretty_print()

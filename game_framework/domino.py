@@ -1,9 +1,9 @@
+import os
+
 borderStr = '.------.------.'
 
 
 class Domino(object):
-    __slots__ = ['pips', 'score']
-
     def __init__(self, pips):
         self.pips = pips
 
@@ -14,8 +14,14 @@ class Domino(object):
         else:
             self.score = 0
 
+        # Is this needed? - For the graphical display, yes, for the training, no. Will this be problematic
+        self.image_path = os.path.join('..', 'images', str(pips[0]) + str(pips[1]) + '.png')
+
+        # This will always be false until the bidding is over
+        self.is_trump = False
+
     def print_domino(self):
-        print('(' + str(self.pips[0]) + ', ' + str(self.pips[1]) + ')\tSCORE: ' + str(self.score))
+        print('(' + str(self.pips[0]) + ', ' + str(self.pips[1]) + ')\tSCORE: ' + str(self.score) + '\tIS TRUMP: ' + str(self.is_trump))
 
     def pretty_print_domino(self):
         top = '|'

@@ -1,21 +1,21 @@
 import arcade
-import os
 from win32api import GetSystemMetrics
+from game import *
 
 SCREEN_WIDTH = GetSystemMetrics(0)
 SCREEN_HEIGHT = GetSystemMetrics(1)
 SCREEN_TITLE = "42 Dominoes"
 
 
-class MyGame(arcade.Window):
+class GameWindow(arcade.Window):
 
-    def __init__(self):
+    def __init__(self, game):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable=True, fullscreen=False)
 
         width, height = self.get_size()
         self.set_viewport(0, width, 0, height)
         arcade.set_background_color((39, 119, 20))  # The color "Pool Felt Green"
-        self.example_image = arcade.load_texture(":resources:images/tiles/boxCrate_double.png")
+        self.game = game
 
     def on_draw(self):
         """
@@ -28,15 +28,19 @@ class MyGame(arcade.Window):
         left, screen_width, bottom, screen_height = self.get_viewport()
 
         # Draw some boxes on the bottom so we can see how they change
-        for x in range(64, 800, 128):
-            y = 64
-            width = 128
-            height = 128
-            arcade.draw_texture_rectangle(x, y, width, height, self.example_image)
+        y = 60
+        for player in self.game.players:
+            x = 115
+            for domino in player.hand.dominoes:
+                image = arcade.load_texture(domino.image_path)
+                arcade.draw_texture_rectangle(x, y, 210, 100, image)
+                x += 215
+
+            y += 150
 
 
 def main():
-    MyGame()
+    GameWindow(Game())
     arcade.run()
 
 
