@@ -23,7 +23,7 @@ class Game(object):
                 next_round = Round(players, self.first_bid)
 
                 # start the bidding
-                player_with_highest_bid, DEBUG_BIDDING_STRING, DEBUG_TRUMP_STRING = next_round.bid()
+                player_with_highest_bid = next_round.bid()
 
                 winner = next_round.play_hand()
 
@@ -32,18 +32,14 @@ class Game(object):
                 else:
                     self.team_2_score += 1
 
-                self.print_game_state(round_num, players, DEBUG_BIDDING_STRING, DEBUG_TRUMP_STRING)
-
                 # Next player bids first
                 self.first_bid = (self.first_bid + 1) % 4
                 round_num += 1
 
-    def print_game_state(self, round_num, players, DEBUG_BIDDING_STRING, DEBUG_TRUMP_STRING):
+    def print_game_state(self, round_num, players):
         print('ROUND NUMBER', str(round_num))
         print('-------------------------------------')
         print('PLAYER #', str(self.first_bid), 'BIDS FIRST\n')
-        print(DEBUG_BIDDING_STRING)
-        print(DEBUG_TRUMP_STRING)
 
         print_players(players)
         print('')

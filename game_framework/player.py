@@ -28,7 +28,7 @@ class Player(object):
         # ARTIFICIAL INTELLIGENCE COMPONENT #2 NEEDS TO GO HERE
         return random.randint(0, 8)
 
-    def examine_dominoes(self, trumps):
+    def mark_trumps_in_hand(self, trumps):
         for i in range(7):
             if is_trump(self.hand.dominoes[i], trumps):
                 self.hand.dominoes[i].is_trump = True
@@ -46,8 +46,3 @@ def is_trump(domino, trumps):
     # Trumps are doubles
     if trumps == 7:
         return domino.pips[0] == domino.pips[1]
-
-    if DEBUG:
-        print('SOMETHING WENT VERY HORRIBLY WRONG, AND I DON\'T KNOW WHAT!')
-        print('VALUE OF TRUMP:', str(trumps))
-        exit(-1)

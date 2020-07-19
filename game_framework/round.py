@@ -19,19 +19,15 @@ class Round(object):
 
         self.trumps = -1
         self.curr_bid = 0
-        self.first_bid = first_bid % 4
+        self.first_bid = first_bid
 
     def bid(self):
         player_with_highest_bid = 0
         current_bidder = self.first_bid
 
-        DEBUG_BIDDING_STR = ''
-
         # Each Player bids
         for i in range(4):
             current_bid = self.players[current_bidder].bid(self.curr_bid, i + 1)
-
-            DEBUG_BIDDING_STR += ('PLAYER # ' + str(current_bidder) + ' BIDS ' + str(current_bid) + '\n')
 
             if current_bid > self.curr_bid:
                 self.curr_bid = current_bid
@@ -41,12 +37,8 @@ class Round(object):
 
         self.trumps = self.players[player_with_highest_bid].set_trump()
 
-        DEBUG_TRUMP_STRING = 'TRUMPS ARE ' + str(self.trumps) + '\n'
-
         for i in range(4):
-            self.players[i].examine_dominoes(self.trumps)
-
-        return player_with_highest_bid, DEBUG_BIDDING_STR, DEBUG_TRUMP_STRING
+            self.players[i].mark_trumps_in_hand(self.trumps)
 
     def play_hand(self):
         return random.randint(1, 2)
